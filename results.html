@@ -1,0 +1,1704 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <title>Super Bowl LX | Live Standings</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          "SF Pro Display",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        background: #000;
+        min-height: 100vh;
+        color: #fff;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      /* Animated background */
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          125deg,
+          #0a0a0a 0%,
+          #1a1a2e 50%,
+          #16213e 100%
+        );
+        z-index: -2;
+      }
+
+      body::after {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image:
+          radial-gradient(
+            circle at 20% 50%,
+            rgba(120, 119, 198, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 80%,
+            rgba(255, 119, 48, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 40% 20%,
+            rgba(255, 119, 48, 0.05) 0%,
+            transparent 50%
+          );
+        z-index: -1;
+        animation: float 20s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-20px) rotate(1deg);
+        }
+      }
+
+      .container {
+        max-width: 1400px;
+        margin: 0 auto;
+        padding: 20px;
+      }
+
+      .header {
+        text-align: center;
+        padding: 40px 20px 30px;
+        position: relative;
+      }
+
+      .header::before {
+        content: "LIVE";
+        position: absolute;
+        top: 20px;
+        right: 40px;
+        font-size: 1rem;
+        font-weight: 900;
+        color: #ff0000;
+        letter-spacing: 3px;
+        animation: pulse 2s infinite;
+      }
+
+      .header::after {
+        content: "";
+        position: absolute;
+        top: 25px;
+        right: 120px;
+        width: 10px;
+        height: 10px;
+        background: #ff0000;
+        border-radius: 50%;
+        animation: pulse 2s infinite;
+      }
+
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      .header h1 {
+        font-size: 3.5rem;
+        font-weight: 900;
+        letter-spacing: -2px;
+        margin-bottom: 10px;
+        background: linear-gradient(135deg, #fff 0%, #888 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-transform: uppercase;
+      }
+
+      .header .subtitle {
+        color: #ff7730;
+        font-size: 1.2rem;
+        font-weight: 600;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+      }
+
+      /* Tab Navigation */
+      .tab-navigation {
+        display: flex;
+        gap: 10px;
+        margin-bottom: 30px;
+        background: rgba(15, 15, 15, 0.9);
+        border: 1px solid rgba(255, 119, 48, 0.2);
+        border-radius: 15px;
+        padding: 10px;
+        backdrop-filter: blur(20px);
+      }
+
+      .tab-btn {
+        flex: 1;
+        padding: 12px 20px;
+        background: rgba(0, 0, 0, 0.5);
+        border: 2px solid rgba(255, 119, 48, 0.2);
+        border-radius: 10px;
+        color: rgba(255, 255, 255, 0.6);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all 0.3s;
+        font-size: 0.9rem;
+      }
+
+      .tab-btn:hover {
+        background: rgba(255, 119, 48, 0.1);
+        border-color: rgba(255, 119, 48, 0.4);
+        color: rgba(255, 255, 255, 0.8);
+      }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, #ff7730, #ff5500);
+            border-color: #ff7730;
+            color: #fff;
+            box-shadow: 0 5px 20px rgba(255, 119, 48, 0.3);
+        }
+        
+        .refresh-btn {
+            margin-left: auto;
+            padding: 12px 20px;
+            background: linear-gradient(135deg, #4caf50, #45a049);
+            border: 2px solid #4caf50;
+            border-radius: 10px;
+            color: #fff;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .refresh-btn:hover {
+            background: linear-gradient(135deg, #45a049, #4caf50);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(76, 175, 80, 0.3);
+        }
+        
+        .refresh-btn:active {
+            transform: translateY(0);
+        }
+        
+        .refresh-icon {
+            font-size: 1.2rem;
+            display: inline-block;
+            transition: transform 0.5s;
+        }
+        
+        .refresh-btn.refreshing .refresh-icon {
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        
+        .refresh-text {
+            font-size: 0.85rem;
+        }
+        
+        /* Success notification */
+        .refresh-notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: linear-gradient(135deg, #4caf50, #45a049);
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(76, 175, 80, 0.4);
+            display: none;
+            z-index: 1000;
+            animation: slideIn 0.3s ease-out;
+        }
+        
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+        
+        .refresh-notification.show {
+            display: block;
+        }
+
+      .tab-content {
+        display: none;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      /* Live Tab Styles */
+      .live-container {
+        display: grid;
+        grid-template-columns: 400px 1fr;
+        gap: 30px;
+      }
+
+      .scoreboard-section {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+      }
+
+      .mini-scoreboard {
+        background: rgba(15, 15, 15, 0.9);
+        border: 1px solid rgba(255, 119, 48, 0.2);
+        border-radius: 20px;
+        backdrop-filter: blur(20px);
+        padding: 25px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      }
+
+      .mini-scoreboard h3 {
+        color: #ff7730;
+        margin-bottom: 20px;
+        font-size: 1.2rem;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 900;
+      }
+
+      .pot-display {
+        background: linear-gradient(
+          135deg,
+          rgba(76, 175, 80, 0.2),
+          rgba(76, 175, 80, 0.1)
+        );
+        border: 2px solid #4caf50;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+
+      .pot-amount {
+        font-size: 2.5rem;
+        font-weight: 900;
+        color: #4caf50;
+        margin-bottom: 5px;
+      }
+
+      .pot-label {
+        font-size: 0.9rem;
+        color: rgba(255, 255, 255, 0.6);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .payout-structure {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 10px;
+        padding: 15px;
+        margin-top: 15px;
+      }
+
+      .payout-item {
+        display: flex;
+        justify-content: space-between;
+        padding: 8px 0;
+        border-bottom: 1px solid rgba(255, 119, 48, 0.1);
+        font-size: 0.9rem;
+      }
+
+      .payout-item:last-child {
+        border-bottom: none;
+      }
+
+      .payout-position {
+        color: rgba(255, 255, 255, 0.7);
+        font-weight: 600;
+      }
+
+      .payout-amount {
+        color: #4caf50;
+        font-weight: 700;
+      }
+
+      .top-players {
+        background: rgba(0, 0, 0, 0.3);
+        border-radius: 15px;
+        padding: 15px;
+      }
+
+      .top-player-item {
+        display: flex;
+        align-items: center;
+        padding: 12px;
+        margin-bottom: 10px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 119, 48, 0.1);
+        border-radius: 10px;
+        transition: all 0.3s;
+      }
+
+      .top-player-item:hover {
+        transform: translateX(5px);
+        background: rgba(255, 255, 255, 0.05);
+      }
+
+      .top-rank {
+        width: 30px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 900;
+        margin-right: 12px;
+        border-radius: 6px;
+      }
+
+      .top-rank-1 {
+        background: linear-gradient(135deg, #ffd700, #ffed4e);
+        color: #000;
+      }
+
+      .top-rank-2 {
+        background: linear-gradient(135deg, #c0c0c0, #e8e8e8);
+        color: #000;
+      }
+
+      .top-rank-3 {
+        background: linear-gradient(135deg, #cd7f32, #e6a15c);
+        color: #fff;
+      }
+
+      .top-player-info {
+        flex: 1;
+      }
+
+      .top-player-name {
+        font-weight: 700;
+        color: #fff;
+        font-size: 0.95rem;
+      }
+
+      .top-player-stats {
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.5);
+        margin-top: 2px;
+      }
+
+      .top-player-score {
+        font-size: 1.3rem;
+        font-weight: 900;
+        color: #ff7730;
+      }
+
+      .correct-leaders {
+        margin-top: 20px;
+      }
+
+      .correct-leaders h4 {
+        color: #7877c6;
+        font-size: 1rem;
+        margin-bottom: 15px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        text-align: center;
+      }
+
+      .questions-panel {
+        background: rgba(15, 15, 15, 0.9);
+        border: 1px solid rgba(255, 119, 48, 0.2);
+        border-radius: 20px;
+        backdrop-filter: blur(20px);
+        padding: 30px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      }
+
+      .simulation-controls {
+        background: linear-gradient(
+          135deg,
+          rgba(120, 119, 198, 0.2) 0%,
+          rgba(120, 119, 198, 0.1) 100%
+        );
+        border: 2px solid #7877c6;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 25px;
+      }
+
+      .simulation-controls h3 {
+        color: #7877c6;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 800;
+        font-size: 1rem;
+      }
+
+      .sim-buttons {
+        display: flex;
+        gap: 10px;
+      }
+
+      .sim-btn {
+        flex: 1;
+        background: rgba(0, 0, 0, 0.5);
+        border: 2px solid #7877c6;
+        color: #7877c6;
+        padding: 8px 15px;
+        border-radius: 8px;
+        cursor: pointer;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        transition: all 0.3s;
+        font-size: 0.8rem;
+      }
+
+      .sim-btn:hover {
+        background: rgba(120, 119, 198, 0.2);
+        transform: translateY(-2px);
+      }
+
+      .sim-btn.active {
+        background: #7877c6;
+        color: #fff;
+      }
+
+      .question-item {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 119, 48, 0.2);
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 15px;
+        transition: all 0.3s;
+      }
+
+      .question-item.answered {
+        border-color: #4caf50;
+        background: rgba(76, 175, 80, 0.05);
+      }
+
+      .question-item.simulated {
+        border-color: #7877c6;
+        background: rgba(120, 119, 198, 0.05);
+      }
+
+      .q-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 15px;
+      }
+
+      .q-number {
+        background: linear-gradient(135deg, #ff7730, #ff5500);
+        color: #fff;
+        padding: 5px 12px;
+        border-radius: 20px;
+        font-weight: 800;
+        font-size: 0.8rem;
+      }
+
+      .q-text {
+        flex: 1;
+        margin: 0 15px;
+        font-size: 1rem;
+        font-weight: 600;
+        color: #fff;
+      }
+
+      .q-status {
+        padding: 5px 12px;
+        border-radius: 6px;
+        font-weight: 700;
+        text-transform: uppercase;
+        font-size: 0.7rem;
+        letter-spacing: 1px;
+      }
+
+      .status-pending {
+        background: rgba(255, 119, 48, 0.1);
+        border: 1px solid rgba(255, 119, 48, 0.3);
+        color: rgba(255, 255, 255, 0.5);
+      }
+
+      .status-final {
+        background: rgba(76, 175, 80, 0.2);
+        border: 1px solid #4caf50;
+        color: #4caf50;
+      }
+
+      .status-simulated {
+        background: rgba(120, 119, 198, 0.2);
+        border: 1px solid #7877c6;
+        color: #7877c6;
+      }
+
+      .q-options {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+        gap: 8px;
+      }
+
+      .q-option {
+        padding: 8px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 6px;
+        text-align: center;
+        transition: all 0.3s;
+        font-size: 0.85rem;
+        cursor: default;
+      }
+
+      .q-option.correct {
+        background: rgba(76, 175, 80, 0.3);
+        border-color: #4caf50;
+        color: #4caf50;
+        font-weight: 700;
+      }
+
+      .q-option.simulated {
+        background: rgba(120, 119, 198, 0.3);
+        border-color: #7877c6;
+        color: #7877c6;
+        font-weight: 700;
+      }
+
+      .q-option.clickable {
+        cursor: pointer;
+      }
+
+      .q-option.clickable:hover {
+        border-color: #7877c6;
+        background: rgba(120, 119, 198, 0.1);
+      }
+
+      /* Leaderboard Tab Styles */
+      .leaderboard-container {
+        background: rgba(15, 15, 15, 0.9);
+        border: 1px solid rgba(255, 119, 48, 0.2);
+        border-radius: 20px;
+        backdrop-filter: blur(20px);
+        padding: 30px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      }
+
+      .leaderboard-table {
+        width: 100%;
+        border-collapse: separate;
+        border-spacing: 0 8px;
+      }
+
+      .leaderboard-table thead th {
+        background: linear-gradient(135deg, #ff7730, #ff5500);
+        color: #fff;
+        padding: 12px;
+        text-align: left;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.85rem;
+        border: none;
+      }
+
+      .leaderboard-table thead th:first-child {
+        border-radius: 10px 0 0 10px;
+      }
+
+      .leaderboard-table thead th:last-child {
+        border-radius: 0 10px 10px 0;
+        text-align: right;
+      }
+
+      .leaderboard-table tbody tr {
+        background: rgba(255, 255, 255, 0.02);
+        transition: all 0.3s;
+      }
+
+      .leaderboard-table tbody tr:hover {
+        background: rgba(255, 255, 255, 0.05);
+        transform: translateX(5px);
+      }
+
+      .leaderboard-table tbody td {
+        padding: 12px;
+        color: rgba(255, 255, 255, 0.8);
+        border-top: 1px solid rgba(255, 119, 48, 0.1);
+        border-bottom: 1px solid rgba(255, 119, 48, 0.1);
+      }
+
+      .leaderboard-table tbody td:first-child {
+        border-left: 1px solid rgba(255, 119, 48, 0.1);
+        border-radius: 10px 0 0 10px;
+        font-weight: 700;
+        color: #ff7730;
+      }
+
+      .leaderboard-table tbody td:last-child {
+        border-right: 1px solid rgba(255, 119, 48, 0.1);
+        border-radius: 0 10px 10px 0;
+        text-align: right;
+      }
+
+      .rank-medal {
+        display: inline-block;
+        width: 25px;
+        height: 25px;
+        line-height: 25px;
+        text-align: center;
+        border-radius: 50%;
+        font-weight: 900;
+        font-size: 0.8rem;
+      }
+
+      .rank-gold {
+        background: linear-gradient(135deg, #ffd700, #ffed4e);
+        color: #000;
+      }
+
+      .rank-silver {
+        background: linear-gradient(135deg, #c0c0c0, #e8e8e8);
+        color: #000;
+      }
+
+      .rank-bronze {
+        background: linear-gradient(135deg, #cd7f32, #e6a15c);
+        color: #fff;
+      }
+
+      /* Submissions Tab Styles */
+      .submissions-container {
+        background: rgba(15, 15, 15, 0.9);
+        border: 1px solid rgba(255, 119, 48, 0.2);
+        border-radius: 20px;
+        backdrop-filter: blur(20px);
+        padding: 30px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      }
+
+      .submission-selector {
+        background: rgba(0, 0, 0, 0.5);
+        border: 2px solid #ff7730;
+        border-radius: 15px;
+        padding: 20px;
+        margin-bottom: 30px;
+      }
+
+      .submission-selector label {
+        display: block;
+        color: #ff7730;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 10px;
+        font-size: 0.9rem;
+      }
+
+      .submission-selector select {
+        width: 100%;
+        padding: 12px;
+        background: rgba(0, 0, 0, 0.5);
+        border: 2px solid rgba(255, 119, 48, 0.3);
+        border-radius: 10px;
+        color: #fff;
+        font-size: 1rem;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.3s;
+      }
+
+      .submission-selector select:focus {
+        outline: none;
+        border-color: #ff7730;
+        background: rgba(255, 119, 48, 0.05);
+      }
+
+      .submission-selector option {
+        background: #1a1a2e;
+        color: #fff;
+      }
+
+      .submission-details {
+        display: none;
+      }
+
+      .submission-details.active {
+        display: block;
+      }
+
+      .submission-header {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 119, 48, 0.2),
+          rgba(255, 119, 48, 0.1)
+        );
+        border: 1px solid #ff7730;
+        border-radius: 12px;
+        padding: 20px;
+        margin-bottom: 25px;
+        text-align: center;
+      }
+
+      .submission-name {
+        font-size: 1.8rem;
+        font-weight: 900;
+        color: #ff7730;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      .submission-stats {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        margin-top: 15px;
+      }
+
+      .submission-stat {
+        text-align: center;
+      }
+
+      .stat-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: #fff;
+      }
+
+      .stat-label {
+        font-size: 0.75rem;
+        color: rgba(255, 255, 255, 0.6);
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-top: 5px;
+      }
+
+      .submission-answers {
+        display: grid;
+        gap: 12px;
+      }
+
+      .answer-item {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 119, 48, 0.2);
+        border-radius: 10px;
+        padding: 15px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        transition: all 0.3s;
+      }
+
+      .answer-item:hover {
+        background: rgba(255, 255, 255, 0.05);
+        transform: translateX(5px);
+      }
+
+      .answer-item.correct {
+        background: rgba(76, 175, 80, 0.1);
+        border-color: #4caf50;
+      }
+
+      .answer-item.wrong {
+        background: rgba(255, 68, 68, 0.05);
+        border-color: rgba(255, 68, 68, 0.3);
+      }
+
+      .answer-question {
+        flex: 1;
+      }
+
+      .answer-q-text {
+        color: rgba(255, 255, 255, 0.7);
+        font-size: 0.85rem;
+        margin-bottom: 5px;
+      }
+
+      .answer-value {
+        color: #fff;
+        font-weight: 700;
+        font-size: 1rem;
+      }
+
+      .answer-confidence {
+        background: linear-gradient(135deg, #7877c6, #5855b0);
+        color: #fff;
+        padding: 8px 16px;
+        border-radius: 8px;
+        font-weight: 800;
+        font-size: 1.1rem;
+        min-width: 50px;
+        text-align: center;
+      }
+
+      .answer-result {
+        margin-left: 15px;
+        font-size: 1.5rem;
+      }
+
+      /* Responsive */
+      @media (max-width: 1024px) {
+        .live-container {
+          grid-template-columns: 1fr;
+        }
+
+        .scoreboard-section {
+          order: 2;
+        }
+
+        .questions-panel {
+          order: 1;
+        }
+      }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 10px;
+            }
+            
+            .header h1 {
+                font-size: 2rem;
+            }
+            
+            .tab-navigation {
+                display: grid;
+                grid-template-columns: 1fr;
+                gap: 5px;
+            }
+            
+            .tab-btn {
+                font-size: 0.8rem;
+                padding: 10px;
+                width: 100%;
+            }
+            
+            .refresh-btn {
+                margin-left: 0;
+                width: 100%;
+                justify-content: center;
+                font-size: 0.8rem;
+                padding: 10px;
+            }
+            
+            .refresh-notification {
+                top: 10px;
+                right: 10px;
+                left: 10px;
+                font-size: 0.9rem;
+                padding: 12px 20px;
+            }
+            
+            .mini-scoreboard {
+                padding: 20px;
+            }
+            
+            .pot-amount {
+                font-size: 2rem;
+            }
+            
+            /* Make table scrollable horizontally on mobile */
+            .leaderboard-container {
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+                padding: 15px 0;
+            }
+            
+            .leaderboard-table {
+                font-size: 0.75rem;
+                min-width: 600px;
+            }
+            
+            .leaderboard-table thead th,
+            .leaderboard-table tbody td {
+                padding: 6px 4px;
+                white-space: nowrap;
+            }
+            
+            .leaderboard-table thead th:first-child,
+            .leaderboard-table tbody td:first-child {
+                position: sticky;
+                left: 0;
+                background: rgba(15, 15, 15, 0.95);
+                z-index: 1;
+            }
+            
+            .leaderboard-table tbody td:first-child {
+                background: rgba(20, 20, 20, 0.95);
+            }
+
+        .submission-name {
+          font-size: 1.4rem;
+        }
+
+        .answer-item {
+          flex-direction: column;
+          align-items: flex-start;
+          gap: 10px;
+        }
+
+        .answer-confidence {
+          align-self: flex-end;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .header h1 {
+          font-size: 1.6rem;
+        }
+
+        .header::before,
+        .header::after {
+          display: none;
+        }
+
+        .q-options {
+          grid-template-columns: 1fr;
+        }
+
+        .submission-stats {
+          flex-direction: column;
+          gap: 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Live Standings</h1>
+        <p class="subtitle">Super Bowl LX</p>
+      </div>
+
+        <!-- Tab Navigation -->
+        <div class="tab-navigation">
+            <button class="tab-btn active" onclick="switchTab('live')">Live</button>
+            <button class="tab-btn" onclick="switchTab('leaderboard')">Full Standings</button>
+            <button class="tab-btn" onclick="switchTab('submissions')">View Submissions</button>
+            <button class="refresh-btn" onclick="forceRefresh()" title="Force refresh all data">
+                <span class="refresh-icon">↻</span>
+                <span class="refresh-text">Refresh</span>
+            </button>
+        </div>
+
+      <!-- Live Tab -->
+      <div id="live-tab" class="tab-content active">
+        <div class="live-container">
+          <div class="scoreboard-section">
+            <div class="mini-scoreboard">
+              <h3>Prize Pool</h3>
+              <div class="pot-display">
+                <div class="pot-amount" id="potAmount">$0</div>
+                <div class="pot-label">Total Pot</div>
+              </div>
+              <div class="payout-structure" id="payoutStructure">
+                <!-- Payouts will be calculated dynamically -->
+              </div>
+            </div>
+
+            <div class="mini-scoreboard">
+              <h3>Points Leaders</h3>
+              <div class="top-players" id="topPointsPlayers">
+                <!-- Top 3 by points -->
+              </div>
+            </div>
+
+            <div class="mini-scoreboard">
+              <h3>Most Correct</h3>
+              <div class="correct-leaders">
+                <div class="top-players" id="topCorrectPlayers">
+                  <!-- Top players by correct answers -->
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="questions-panel">
+            <div class="simulation-controls">
+              <h3>Simulation Mode</h3>
+              <div class="sim-buttons">
+                <button class="sim-btn" onclick="resetSimulation()">
+                  Clear
+                </button>
+                <button
+                  class="sim-btn active"
+                  id="simToggle"
+                  onclick="toggleSimulation()"
+                >
+                  ON
+                </button>
+              </div>
+            </div>
+
+            <div id="questionsContainer">
+              <!-- Questions will be loaded here -->
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Leaderboard Tab -->
+      <div id="leaderboard-tab" class="tab-content">
+        <div class="leaderboard-container">
+          <table class="leaderboard-table">
+            <thead>
+              <tr>
+                <th>Rank</th>
+                <th>Player</th>
+                <th>Correct</th>
+                <th>Points</th>
+                <th>Avg Pts</th>
+                <th>High</th>
+                <th>Low</th>
+                <th>Winnings</th>
+              </tr>
+            </thead>
+            <tbody id="fullLeaderboardBody">
+              <!-- Full leaderboard data -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Submissions Tab -->
+      <div id="submissions-tab" class="tab-content">
+        <div class="submissions-container">
+          <div class="submission-selector">
+            <label for="playerSelect">Select Player</label>
+            <select id="playerSelect" onchange="showSubmission(this.value)">
+              <option value="">Choose a player...</option>
+            </select>
+          </div>
+
+          <div id="submissionDetails" class="submission-details">
+            <!-- Player submission details -->
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      // Detect if running on S3 or locally
+      const isS3 =
+        window.location.hostname.includes("s3") ||
+        window.location.hostname.includes("amazonaws") ||
+        window.location.hostname.includes("cloudfront");
+
+      // Set the base URL for loading files
+      // IMPORTANT: Replace 'your-bucket-name' with your actual S3 bucket name
+      const S3_BUCKET_URL =
+        "https://superbowl-pickem.s3.us-east-2.amazonaws.com";
+      const BASE_URL = isS3 ? S3_BUCKET_URL : ".";
+
+      console.log("Running on S3:", isS3);
+      console.log("Base URL:", BASE_URL);
+
+      // State management
+      let questions = [];
+      let key = [];
+      let submissions = [];
+      let simulatedResults = {};
+      let simulationEnabled = true;
+      let currentTab = "live";
+
+      // Load all data
+      async function loadData() {
+        try {
+          // Add timestamp to prevent caching
+          const timestamp = new Date().getTime();
+          const [questionsResponse, keyResponse, submissionsResponse] =
+            await Promise.all([
+              fetch(`${BASE_URL}/questions.json?t=${timestamp}`),
+              fetch(`${BASE_URL}/key.json?t=${timestamp}`),
+              fetch(`${BASE_URL}/submissions.json?t=${timestamp}`),
+            ]);
+
+          console.log("Loading files from:", BASE_URL);
+
+          if (
+            !questionsResponse.ok ||
+            !keyResponse.ok ||
+            !submissionsResponse.ok
+          ) {
+            throw new Error("Failed to load one or more data files");
+          }
+
+          questions = await questionsResponse.json();
+          key = await keyResponse.json();
+          submissions = await submissionsResponse.json();
+
+          renderEverything();
+        } catch (error) {
+          console.error("Error loading data:", error);
+          // Show error message to user
+          const container = document.querySelector(".container");
+          if (container && !document.getElementById("error-message")) {
+            const errorDiv = document.createElement("div");
+            errorDiv.id = "error-message";
+            errorDiv.style.cssText =
+              "background: rgba(255,0,0,0.1); border: 2px solid #ff0000; color: #ff0000; padding: 20px; margin: 20px; border-radius: 10px; text-align: center;";
+            errorDiv.innerHTML =
+              "<h3>Error Loading Data</h3><p>Please check that all JSON files are in the S3 bucket and refresh the page.</p>";
+            container.insertBefore(errorDiv, container.firstChild);
+          }
+        }
+      }
+
+      // Switch tabs
+      function switchTab(tab) {
+        currentTab = tab;
+
+        // Update tab buttons
+        document.querySelectorAll(".tab-btn").forEach((btn) => {
+          btn.classList.remove("active");
+        });
+        event.target.classList.add("active");
+
+        // Show/hide content
+        document.querySelectorAll(".tab-content").forEach((content) => {
+          content.classList.remove("active");
+        });
+        document.getElementById(`${tab}-tab`).classList.add("active");
+
+        // Render tab-specific content
+        if (tab === "leaderboard") {
+          renderFullLeaderboard();
+        } else if (tab === "submissions") {
+          populatePlayerSelect();
+        }
+      }
+
+      // Calculate scores and rankings
+      function calculateScores() {
+        submissions.forEach((submission) => {
+          let totalScore = 0;
+          let correctCount = 0;
+          let highestConfidence = 0;
+          let lowestConfidence = 20;
+          let answeredQuestions = 0;
+
+          submission.answers.forEach((answer) => {
+            const keyItem = key.find((k) => k.id === answer.id);
+            const result =
+              simulatedResults[answer.id] || (keyItem ? keyItem.result : null);
+
+            if (result) {
+              answeredQuestions++;
+              if (result === answer.answer) {
+                totalScore += answer.confidence;
+                correctCount++;
+              }
+
+              if (answer.confidence > highestConfidence) {
+                highestConfidence = answer.confidence;
+              }
+              if (answer.confidence < lowestConfidence) {
+                lowestConfidence = answer.confidence;
+              }
+            }
+          });
+
+          submission.score = totalScore;
+          submission.correct = correctCount;
+          submission.avgPoints =
+            answeredQuestions > 0
+              ? (totalScore / answeredQuestions).toFixed(1)
+              : 0;
+          submission.highPoint = highestConfidence;
+          submission.lowPoint = lowestConfidence === 20 ? 0 : lowestConfidence;
+        });
+      }
+
+      // Calculate payouts
+      function calculatePayouts() {
+        const totalPlayers = submissions.length;
+        const pot = totalPlayers * 20;
+
+        // Sort by correct answers and points
+        const byCorrect = [...submissions].sort(
+          (a, b) => b.correct - a.correct,
+        );
+        const byPoints = [...submissions].sort((a, b) => b.score - a.score);
+
+        // Find most correct winners (could be multiple)
+        const mostCorrect = byCorrect[0]?.correct || 0;
+        const mostCorrectWinners = byCorrect.filter(
+          (s) => s.correct === mostCorrect,
+        );
+        const mostCorrectPayout = mostCorrectWinners.length * 20;
+
+        // Remaining pot after paying most correct
+        const remainingPot = pot - mostCorrectPayout;
+
+        // Find points winners (handling ties)
+        const firstPoints = byPoints[0]?.score || 0;
+        const firstPointsWinners = byPoints.filter(
+          (s) => s.score === firstPoints,
+        );
+
+        // Find second place (excluding first place winners)
+        const secondPoints =
+          byPoints.find((s) => s.score < firstPoints)?.score || 0;
+        const secondPointsWinners = byPoints.filter(
+          (s) => s.score === secondPoints,
+        );
+
+        // Calculate split payouts
+        const firstPayout = (remainingPot * 0.7) / firstPointsWinners.length;
+        const secondPayout =
+          secondPointsWinners.length > 0
+            ? (remainingPot * 0.3) / secondPointsWinners.length
+            : 0;
+
+        // Assign winnings to each player
+        submissions.forEach((submission) => {
+          let winnings = 0;
+
+          // Check if won for most correct
+          if (submission.correct === mostCorrect && mostCorrect > 0) {
+            winnings += 20;
+          }
+
+          // Check if won for points
+          if (submission.score === firstPoints && firstPoints > 0) {
+            winnings += firstPayout;
+          } else if (submission.score === secondPoints && secondPoints > 0) {
+            winnings += secondPayout;
+          }
+
+          submission.winnings = winnings;
+        });
+
+        return {
+          pot,
+          mostCorrectWinners,
+          mostCorrectPayout,
+          firstPointsWinners,
+          firstPayout,
+          secondPointsWinners,
+          secondPayout,
+          remainingPot,
+        };
+      }
+
+      // Render everything
+      function renderEverything() {
+        calculateScores();
+        const payouts = calculatePayouts();
+
+        renderPotAndPayouts(payouts);
+        renderTopPlayers();
+        renderQuestions();
+
+        if (currentTab === "leaderboard") {
+          renderFullLeaderboard();
+        } else if (currentTab === "submissions") {
+          populatePlayerSelect();
+        }
+      }
+
+      // Render pot and payouts
+      function renderPotAndPayouts(payouts) {
+        document.getElementById("potAmount").textContent = `$${payouts.pot}`;
+
+        const payoutStructure = document.getElementById("payoutStructure");
+        payoutStructure.innerHTML = `
+                <div class="payout-item">
+                    <span class="payout-position">Most Correct (${payouts.mostCorrectWinners.length})</span>
+                    <span class="payout-amount">$${payouts.mostCorrectWinners.length > 0 ? 20 : 0} each</span>
+                </div>
+                <div class="payout-item">
+                    <span class="payout-position">1st Points (${payouts.firstPointsWinners.length})</span>
+                    <span class="payout-amount">$${payouts.firstPayout.toFixed(0)} each</span>
+                </div>
+                ${
+                  payouts.secondPointsWinners.length > 0
+                    ? `
+                <div class="payout-item">
+                    <span class="payout-position">2nd Points (${payouts.secondPointsWinners.length})</span>
+                    <span class="payout-amount">$${payouts.secondPayout.toFixed(0)} each</span>
+                </div>`
+                    : ""
+                }
+            `;
+      }
+
+      // Render top players
+      function renderTopPlayers() {
+        // Top 3 by points
+        const byPoints = [...submissions]
+          .sort((a, b) => b.score - a.score)
+          .slice(0, 3);
+        const topPointsHtml = byPoints
+          .map(
+            (player, idx) => `
+                <div class="top-player-item">
+                    <div class="top-rank top-rank-${idx + 1}">${idx + 1}</div>
+                    <div class="top-player-info">
+                        <div class="top-player-name">${player.name}</div>
+                        <div class="top-player-stats">${player.correct} correct</div>
+                    </div>
+                    <div class="top-player-score">${player.score}</div>
+                </div>
+            `,
+          )
+          .join("");
+        document.getElementById("topPointsPlayers").innerHTML = topPointsHtml;
+
+        // Top by correct answers
+        const byCorrect = [...submissions]
+          .sort((a, b) => {
+            if (b.correct !== a.correct) return b.correct - a.correct;
+            return b.score - a.score;
+          })
+          .slice(0, 3);
+        const topCorrectHtml = byCorrect
+          .map(
+            (player, idx) => `
+                <div class="top-player-item">
+                    <div class="top-rank top-rank-${idx + 1}">${idx + 1}</div>
+                    <div class="top-player-info">
+                        <div class="top-player-name">${player.name}</div>
+                        <div class="top-player-stats">${player.score} points</div>
+                    </div>
+                    <div class="top-player-score">${player.correct}</div>
+                </div>
+            `,
+          )
+          .join("");
+        document.getElementById("topCorrectPlayers").innerHTML = topCorrectHtml;
+      }
+
+      // Render questions
+      function renderQuestions() {
+        const container = document.getElementById("questionsContainer");
+        container.innerHTML = "";
+
+        questions.forEach((question) => {
+          const keyItem = key.find((k) => k.id === question.id) || {};
+          const result = simulatedResults[question.id] || keyItem.result;
+          const isAnswered = result !== null && result !== undefined;
+          const isSimulated = simulatedResults[question.id] !== undefined;
+
+          const questionDiv = document.createElement("div");
+          questionDiv.className = `question-item ${isAnswered ? (isSimulated ? "simulated" : "answered") : ""}`;
+
+          questionDiv.innerHTML = `
+                    <div class="q-header">
+                        <span class="q-number">Q${question.id}</span>
+                        <span class="q-text">${question.question}</span>
+                        <span class="q-status ${isAnswered ? (isSimulated ? "status-simulated" : "status-final") : "status-pending"}">
+                            ${isAnswered ? (isSimulated ? "SIM" : "FINAL") : "PENDING"}
+                        </span>
+                    </div>
+                    <div class="q-options">
+                        ${question.options
+                          .map((option) => {
+                            const isCorrect = result === option;
+                            const canClick =
+                              !keyItem.result && simulationEnabled;
+
+                            return `
+                                <div class="q-option ${isCorrect ? (isSimulated ? "simulated" : "correct") : ""} ${canClick ? "clickable" : ""}"
+                                     ${canClick ? `onclick="simulateResult(${question.id}, '${option}')"` : ""}>
+                                    ${option} ${isCorrect ? "✓" : ""}
+                                </div>
+                            `;
+                          })
+                          .join("")}
+                    </div>
+                `;
+
+          container.appendChild(questionDiv);
+        });
+      }
+
+      // Render full leaderboard
+      function renderFullLeaderboard() {
+        const sorted = [...submissions].sort((a, b) => b.score - a.score);
+
+        const tbody = document.getElementById("fullLeaderboardBody");
+        tbody.innerHTML = sorted
+          .map((player, idx) => {
+            const rank = idx + 1;
+            const rankDisplay =
+              rank === 1
+                ? '<span class="rank-medal rank-gold">1</span>'
+                : rank === 2
+                  ? '<span class="rank-medal rank-silver">2</span>'
+                  : rank === 3
+                    ? '<span class="rank-medal rank-bronze">3</span>'
+                    : rank;
+
+            return `
+                    <tr>
+                        <td>${rankDisplay}</td>
+                        <td>${player.name}</td>
+                        <td>${player.correct}</td>
+                        <td>${player.score}</td>
+                        <td>${player.avgPoints}</td>
+                        <td>${player.highPoint}</td>
+                        <td>${player.lowPoint}</td>
+                        <td>$${player.winnings.toFixed(0)}</td>
+                    </tr>
+                `;
+          })
+          .join("");
+      }
+
+      // Populate player select
+      function populatePlayerSelect() {
+        const select = document.getElementById("playerSelect");
+        const sorted = [...submissions].sort((a, b) =>
+          a.name.localeCompare(b.name),
+        );
+
+        select.innerHTML =
+          '<option value="">Choose a player...</option>' +
+          sorted
+            .map((s) => `<option value="${s.name}">${s.name}</option>`)
+            .join("");
+      }
+
+      // Show submission details
+      function showSubmission(playerName) {
+        const detailsDiv = document.getElementById("submissionDetails");
+
+        if (!playerName) {
+          detailsDiv.classList.remove("active");
+          return;
+        }
+
+        const submission = submissions.find((s) => s.name === playerName);
+        if (!submission) return;
+
+        // Sort answers by confidence (descending)
+        const sortedAnswers = [...submission.answers].sort(
+          (a, b) => b.confidence - a.confidence,
+        );
+
+        detailsDiv.innerHTML = `
+                <div class="submission-header">
+                    <div class="submission-name">${submission.name}</div>
+                    <div class="submission-stats">
+                        <div class="submission-stat">
+                            <div class="stat-value">${submission.correct}</div>
+                            <div class="stat-label">Correct</div>
+                        </div>
+                        <div class="submission-stat">
+                            <div class="stat-value">${submission.score}</div>
+                            <div class="stat-label">Points</div>
+                        </div>
+                        <div class="submission-stat">
+                            <div class="stat-value">$${submission.winnings.toFixed(0)}</div>
+                            <div class="stat-label">Winnings</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="submission-answers">
+                    ${sortedAnswers
+                      .map((answer) => {
+                        const question = questions.find(
+                          (q) => q.id === answer.id,
+                        );
+                        const keyItem = key.find((k) => k.id === answer.id);
+                        const result =
+                          simulatedResults[answer.id] ||
+                          (keyItem ? keyItem.result : null);
+                        const isCorrect = result && result === answer.answer;
+                        const hasResult =
+                          result !== null && result !== undefined;
+
+                        return `
+                            <div class="answer-item ${hasResult ? (isCorrect ? "correct" : "wrong") : ""}">
+                                <div class="answer-question">
+                                    <div class="answer-q-text">${question.question}</div>
+                                    <div class="answer-value">${answer.answer}</div>
+                                </div>
+                                <div class="answer-confidence">${answer.confidence}</div>
+                                ${hasResult ? `<div class="answer-result">${isCorrect ? "✓" : "✗"}</div>` : ""}
+                            </div>
+                        `;
+                      })
+                      .join("")}
+                </div>
+            `;
+
+        detailsDiv.classList.add("active");
+      }
+
+      // Simulate result
+      function simulateResult(questionId, answer) {
+        if (!simulationEnabled) return;
+
+        const keyItem = key.find((k) => k.id === questionId);
+        if (keyItem && keyItem.result) return;
+
+        if (simulatedResults[questionId] === answer) {
+          delete simulatedResults[questionId];
+        } else {
+          simulatedResults[questionId] = answer;
+        }
+
+        renderEverything();
+      }
+
+      // Reset simulation
+      function resetSimulation() {
+        simulatedResults = {};
+        renderEverything();
+      }
+
+      // Toggle simulation
+      function toggleSimulation() {
+        simulationEnabled = !simulationEnabled;
+        const btn = document.getElementById("simToggle");
+        btn.textContent = simulationEnabled ? "ON" : "OFF";
+        btn.className = simulationEnabled ? "sim-btn active" : "sim-btn";
+
+        if (!simulationEnabled) {
+          resetSimulation();
+        }
+      }
+
+      // Force refresh function
+      async function forceRefresh() {
+        const btn = document.querySelector('.refresh-btn');
+        btn.classList.add('refreshing');
+        
+        try {
+          // Add aggressive timestamp to bypass all caching
+          const timestamp = new Date().getTime();
+          const randomNum = Math.random();
+          
+          // Clear any existing data
+          questions = [];
+          key = [];
+          submissions = [];
+          simulatedResults = {};
+          
+          // Fetch with cache-busting parameters
+          const [questionsResponse, keyResponse, submissionsResponse] = await Promise.all([
+            fetch(`${BASE_URL}/questions.json?t=${timestamp}&r=${randomNum}`, {
+              cache: 'no-cache',
+              headers: {
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                'Pragma': 'no-cache'
+              }
+            }),
+            fetch(`${BASE_URL}/key.json?t=${timestamp}&r=${randomNum}`, {
+              cache: 'no-cache',
+              headers: {
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                'Pragma': 'no-cache'
+              }
+            }),
+            fetch(`${BASE_URL}/submissions.json?t=${timestamp}&r=${randomNum}`, {
+              cache: 'no-cache',
+              headers: {
+                'Cache-Control': 'no-cache, no-store, must-revalidate',
+                'Pragma': 'no-cache'
+              }
+            })
+          ]);
+          
+          if (!questionsResponse.ok || !keyResponse.ok || !submissionsResponse.ok) {
+            throw new Error('Failed to load one or more data files');
+          }
+          
+          questions = await questionsResponse.json();
+          key = await keyResponse.json();
+          submissions = await submissionsResponse.json();
+          
+          // Re-render everything
+          renderEverything();
+          
+          // Show success notification
+          showRefreshNotification();
+          
+        } catch (error) {
+          console.error('Error refreshing data:', error);
+          alert('Error refreshing data. Please try again.');
+        } finally {
+          btn.classList.remove('refreshing');
+        }
+      }
+      
+      // Show refresh notification
+      function showRefreshNotification() {
+        // Remove any existing notification
+        const existingNotification = document.querySelector('.refresh-notification');
+        if (existingNotification) {
+          existingNotification.remove();
+        }
+        
+        // Create and show new notification
+        const notification = document.createElement('div');
+        notification.className = 'refresh-notification show';
+        notification.textContent = '✅ Data refreshed successfully!';
+        document.body.appendChild(notification);
+        
+        // Hide after 3 seconds
+        setTimeout(() => {
+          notification.classList.remove('show');
+          setTimeout(() => {
+            notification.remove();
+          }, 300);
+        }, 3000);
+      }
+
+      // Auto-refresh every 30 seconds
+      setInterval(() => {
+        loadData();
+      }, 30000);
+
+      // Initialize
+      document.addEventListener("DOMContentLoaded", loadData);
+    </script>
+  </body>
+</html>

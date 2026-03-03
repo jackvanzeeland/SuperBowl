@@ -1,0 +1,1498 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+    />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta
+      name="apple-mobile-web-app-status-bar-style"
+      content="black-translucent"
+    />
+    <title>Super Bowl LX | 2026 Championship Pool</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        font-family:
+          "SF Pro Display",
+          -apple-system,
+          BlinkMacSystemFont,
+          "Segoe UI",
+          Roboto,
+          sans-serif;
+        background: #000;
+        min-height: 100vh;
+        color: #fff;
+        position: relative;
+        overflow-x: hidden;
+      }
+
+      /* Animated background */
+      body::before {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(
+          125deg,
+          #0a0a0a 0%,
+          #1a1a2e 50%,
+          #16213e 100%
+        );
+        z-index: -2;
+      }
+
+      body::after {
+        content: "";
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image:
+          radial-gradient(
+            circle at 20% 50%,
+            rgba(120, 119, 198, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 80% 80%,
+            rgba(255, 119, 48, 0.1) 0%,
+            transparent 50%
+          ),
+          radial-gradient(
+            circle at 40% 20%,
+            rgba(255, 119, 48, 0.05) 0%,
+            transparent 50%
+          );
+        z-index: -1;
+        animation: float 20s ease-in-out infinite;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0) rotate(0deg);
+        }
+        50% {
+          transform: translateY(-20px) rotate(1deg);
+        }
+      }
+
+      .container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 20px;
+        position: relative;
+      }
+
+      .header {
+        text-align: center;
+        padding: 60px 20px 40px;
+        position: relative;
+      }
+
+      .header::before {
+        content: "LX";
+        position: absolute;
+        top: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        font-size: 6rem;
+        font-weight: 900;
+        opacity: 0.03;
+        letter-spacing: 20px;
+      }
+
+      .header h1 {
+        font-size: 3.5rem;
+        font-weight: 900;
+        letter-spacing: -2px;
+        margin-bottom: 10px;
+        background: linear-gradient(135deg, #fff 0%, #888 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        text-transform: uppercase;
+      }
+
+      .header .subtitle {
+        color: #ff7730;
+        font-size: 1.2rem;
+        font-weight: 600;
+        letter-spacing: 3px;
+        text-transform: uppercase;
+      }
+
+      .form-container {
+        background: rgba(15, 15, 15, 0.9);
+        border: 1px solid rgba(255, 119, 48, 0.2);
+        border-radius: 20px;
+        backdrop-filter: blur(20px);
+        padding: 40px;
+        box-shadow:
+          0 20px 60px rgba(0, 0, 0, 0.5),
+          inset 0 1px 0 rgba(255, 255, 255, 0.1);
+      }
+
+      .info-section {
+        background: linear-gradient(
+          135deg,
+          rgba(255, 119, 48, 0.1) 0%,
+          rgba(120, 119, 198, 0.1) 100%
+        );
+        border: 1px solid rgba(255, 119, 48, 0.2);
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 30px;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .info-section::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 3px;
+        background: linear-gradient(90deg, #ff7730, #7877c6);
+        animation: glow 2s ease-in-out infinite;
+      }
+
+      @keyframes glow {
+        0%,
+        100% {
+          opacity: 1;
+        }
+        50% {
+          opacity: 0.5;
+        }
+      }
+
+      .info-section h3 {
+        color: #ff7730;
+        margin-bottom: 20px;
+        font-size: 1.3rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      .info-section ul {
+        list-style: none;
+      }
+
+      .info-section li {
+        padding: 10px 0;
+        color: rgba(255, 255, 255, 0.8);
+        font-size: 1rem;
+        padding-left: 25px;
+        position: relative;
+      }
+
+      .info-section li:before {
+        content: "▸";
+        position: absolute;
+        left: 0;
+        color: #ff7730;
+        font-size: 1.2rem;
+      }
+
+      .payment-info {
+        background: linear-gradient(135deg, #ff7730 0%, #ff5500 100%);
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 30px;
+        text-align: center;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .payment-info::after {
+        content: "$";
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 4rem;
+        opacity: 0.1;
+        font-weight: 900;
+      }
+
+      .payment-info h3 {
+        color: #fff;
+        margin-bottom: 15px;
+        font-size: 1.3rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      .venmo-handle {
+        font-size: 1.8rem;
+        color: #fff;
+        font-weight: 900;
+        margin: 15px 0;
+        text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+      }
+
+      .venmo-handle a {
+        color: #fff;
+        text-decoration: none;
+        border-bottom: 3px solid rgba(255, 255, 255, 0.3);
+        transition: border-color 0.3s;
+      }
+
+      .venmo-handle a:hover {
+        border-color: #fff;
+      }
+
+      .payment-warning {
+        background: rgba(0, 0, 0, 0.3);
+        padding: 10px 20px;
+        border-radius: 10px;
+        margin-top: 15px;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 0.9rem;
+        letter-spacing: 1px;
+      }
+
+      .form-group {
+        margin-bottom: 30px;
+      }
+
+      .form-group label {
+        display: block;
+        margin-bottom: 10px;
+        font-weight: 600;
+        color: #ff7730;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.9rem;
+      }
+
+      .form-group input[type="text"] {
+        width: 100%;
+        padding: 15px;
+        background: rgba(255, 255, 255, 0.05);
+        border: 2px solid rgba(255, 119, 48, 0.3);
+        border-radius: 10px;
+        font-size: 1.1rem;
+        color: #fff;
+        transition: all 0.3s;
+        -webkit-appearance: none;
+        appearance: none;
+      }
+
+      /* Prevent zoom on input focus on iOS */
+      @supports (-webkit-touch-callout: none) {
+        .form-group input[type="text"],
+        .confidence-input input {
+          font-size: 16px !important;
+        }
+      }
+
+      .form-group input[type="text"]:focus {
+        outline: none;
+        border-color: #ff7730;
+        background: rgba(255, 255, 255, 0.08);
+        box-shadow: 0 0 20px rgba(255, 119, 48, 0.2);
+      }
+
+      .form-group input[type="text"]::placeholder {
+        color: rgba(255, 255, 255, 0.3);
+      }
+
+      .confidence-tracker {
+        background: rgba(0, 0, 0, 0.5);
+        border: 2px solid #ff7730;
+        border-radius: 12px;
+        padding: 15px;
+        margin-bottom: 30px;
+        position: sticky;
+        top: 20px;
+        z-index: 10;
+      }
+
+      .confidence-tracker h3 {
+        color: #ff7730;
+        margin-bottom: 12px;
+        text-align: center;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.85rem;
+      }
+
+      .points-grid {
+        display: grid;
+        grid-template-columns: repeat(10, 1fr);
+        gap: 4px;
+        margin-bottom: 12px;
+      }
+
+      .point-box {
+        aspect-ratio: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border: 1px solid rgba(255, 119, 48, 0.3);
+        border-radius: 4px;
+        font-weight: 600;
+        font-size: 0.7rem;
+        transition: all 0.3s;
+        background: rgba(0, 0, 0, 0.3);
+      }
+
+      /* Mobile-specific confidence tracker */
+      @media (max-width: 768px) {
+        .confidence-tracker {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          margin: 0;
+          padding: 8px 10px;
+          border-radius: 0;
+          border-top: none;
+          border-left: none;
+          border-right: none;
+          background: rgba(0, 0, 0, 0.95);
+          backdrop-filter: blur(10px);
+          box-shadow: 0 2px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .confidence-tracker h3 {
+          font-size: 0.7rem;
+          margin-bottom: 8px;
+          letter-spacing: 0.5px;
+        }
+
+        .points-grid {
+          grid-template-columns: repeat(10, 1fr);
+          gap: 3px;
+          margin-bottom: 8px;
+          max-width: 100%;
+        }
+
+        .point-box {
+          font-size: 0.6rem;
+          font-weight: 700;
+          padding: 0;
+          min-height: 22px;
+          border-width: 1px;
+        }
+
+        .tracker-status {
+          font-size: 0.7rem;
+          padding: 5px;
+          margin: 0;
+        }
+
+        /* Add padding to top of form to account for fixed tracker */
+        .form-container {
+          padding-top: 100px;
+        }
+      }
+
+      .point-box.available {
+        background: rgba(120, 119, 198, 0.2);
+        border-color: #7877c6;
+        color: #7877c6;
+        cursor: pointer;
+      }
+
+      .point-box.available:hover {
+        background: rgba(120, 119, 198, 0.3);
+        transform: scale(1.05);
+      }
+
+      .point-box.used {
+        background: rgba(255, 119, 48, 0.2);
+        border-color: #ff7730;
+        color: #ff7730;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .point-box.used::after {
+        content: "✓";
+        position: absolute;
+        font-size: 1rem;
+        opacity: 0.3;
+      }
+
+      .tracker-status {
+        text-align: center;
+        padding: 8px;
+        border-radius: 8px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.75rem;
+        transition: all 0.3s;
+      }
+
+      .tracker-status.valid {
+        background: linear-gradient(
+          135deg,
+          rgba(76, 175, 80, 0.2) 0%,
+          rgba(76, 175, 80, 0.1) 100%
+        );
+        color: #4caf50;
+        border: 1px solid #4caf50;
+      }
+
+      .tracker-status.invalid {
+        background: rgba(255, 119, 48, 0.1);
+        color: rgba(255, 255, 255, 0.5);
+        border: 1px solid rgba(255, 119, 48, 0.3);
+      }
+
+      .question-card {
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 119, 48, 0.2);
+        border-radius: 15px;
+        padding: 30px;
+        margin-bottom: 25px;
+        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .question-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 119, 48, 0.1),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .question-card:hover::before {
+        left: 100%;
+      }
+
+      .question-card:hover {
+        border-color: #ff7730;
+        background: rgba(255, 255, 255, 0.05);
+        transform: translateX(5px);
+      }
+
+      .question-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+        margin-bottom: 20px;
+      }
+
+      .question-number {
+        background: linear-gradient(135deg, #ff7730 0%, #ff5500 100%);
+        color: #fff;
+        padding: 8px 16px;
+        border-radius: 25px;
+        font-weight: 800;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .question-text {
+        flex: 1;
+        margin: 0 20px;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: #fff;
+      }
+
+      .confidence-input {
+        width: 100px;
+      }
+
+      .confidence-input input {
+        width: 100%;
+        padding: 10px;
+        background: rgba(0, 0, 0, 0.5);
+        border: 2px solid rgba(120, 119, 198, 0.3);
+        border-radius: 10px;
+        text-align: center;
+        font-size: 1.1rem;
+        font-weight: 700;
+        color: #7877c6;
+        transition: all 0.3s;
+        -webkit-appearance: none;
+        -moz-appearance: textfield;
+      }
+
+      .confidence-input input::-webkit-inner-spin-button,
+      .confidence-input input::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+      }
+
+      .confidence-input input:focus {
+        outline: none;
+        border-color: #7877c6;
+        background: rgba(120, 119, 198, 0.1);
+        box-shadow: 0 0 20px rgba(120, 119, 198, 0.3);
+      }
+
+      .confidence-input input.error {
+        border-color: #ff4444;
+        background: rgba(255, 68, 68, 0.1);
+        color: #ff4444;
+      }
+
+      .confidence-label {
+        display: block;
+        font-size: 0.7rem;
+        color: rgba(255, 255, 255, 0.5);
+        text-align: center;
+        margin-top: 5px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+      }
+
+      .options-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 12px;
+      }
+
+      .option-label {
+        display: flex;
+        align-items: center;
+        padding: 15px;
+        background: rgba(0, 0, 0, 0.3);
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 10px;
+        cursor: pointer;
+        transition: all 0.3s;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .option-label::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 119, 48, 0.2),
+          transparent
+        );
+        transition: left 0.3s;
+      }
+
+      .option-label:hover::before {
+        left: 100%;
+      }
+
+      .option-label:hover {
+        border-color: rgba(255, 119, 48, 0.5);
+        background: rgba(255, 119, 48, 0.05);
+        transform: translateX(3px);
+      }
+
+      .option-label input[type="radio"] {
+        appearance: none;
+        width: 20px;
+        height: 20px;
+        border: 2px solid rgba(255, 119, 48, 0.5);
+        border-radius: 50%;
+        margin-right: 12px;
+        position: relative;
+        transition: all 0.3s;
+      }
+
+      .option-label input[type="radio"]:checked {
+        background: #ff7730;
+        border-color: #ff7730;
+      }
+
+      .option-label input[type="radio"]:checked::after {
+        content: "✓";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: #fff;
+        font-size: 12px;
+        font-weight: 700;
+      }
+
+      .option-label span {
+        color: rgba(255, 255, 255, 0.8);
+        font-weight: 500;
+        transition: color 0.3s;
+      }
+
+      .option-label:has(input:checked) {
+        background: rgba(255, 119, 48, 0.1);
+        border-color: #ff7730;
+      }
+
+      .option-label:has(input:checked) span {
+        color: #fff;
+        font-weight: 700;
+      }
+
+      .submit-section {
+        margin-top: 50px;
+        text-align: center;
+      }
+
+      .submit-btn {
+        background: linear-gradient(135deg, #ff7730 0%, #ff5500 100%);
+        color: #fff;
+        border: none;
+        padding: 18px 60px;
+        font-size: 1.2rem;
+        font-weight: 800;
+        border-radius: 50px;
+        cursor: pointer;
+        transition: all 0.3s;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        position: relative;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(255, 119, 48, 0.3);
+      }
+
+      .submit-btn::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.2),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .submit-btn:hover::before {
+        left: 100%;
+      }
+
+      .submit-btn:hover:not(:disabled) {
+        transform: translateY(-3px);
+        box-shadow: 0 15px 40px rgba(255, 119, 48, 0.4);
+      }
+
+      .submit-btn:disabled {
+        opacity: 0.3;
+        cursor: not-allowed;
+        box-shadow: none;
+      }
+
+      .error-message {
+        color: #ff4444;
+        margin-top: 15px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-size: 0.9rem;
+      }
+
+      .success-message {
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+        border: 2px solid #4caf50;
+        padding: 50px;
+        border-radius: 20px;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+        text-align: center;
+        display: none;
+        z-index: 1000;
+      }
+
+      .success-message h2 {
+        color: #4caf50;
+        margin-bottom: 20px;
+        font-size: 2rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+      }
+
+      .success-message p {
+        color: rgba(255, 255, 255, 0.8);
+        margin-bottom: 15px;
+      }
+
+      .overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(0, 0, 0, 0.8);
+        backdrop-filter: blur(5px);
+        display: none;
+        z-index: 999;
+      }
+
+      @media (max-width: 768px) {
+        .container {
+          padding: 10px;
+        }
+
+        .header {
+          padding: 40px 15px 30px;
+        }
+
+        .header::before {
+          font-size: 4rem;
+          top: 10px;
+        }
+
+        .header h1 {
+          font-size: 2rem;
+          letter-spacing: -1px;
+        }
+
+        .header .subtitle {
+          font-size: 1rem;
+          letter-spacing: 2px;
+        }
+
+        .form-container {
+          padding: 20px;
+          border-radius: 15px;
+        }
+
+        .info-section {
+          padding: 20px;
+        }
+
+        .info-section h3 {
+          font-size: 1.1rem;
+        }
+
+        .info-section li {
+          font-size: 0.9rem;
+          padding: 8px 0;
+        }
+
+        .payment-info {
+          padding: 20px;
+        }
+
+        .payment-info h3 {
+          font-size: 1.1rem;
+        }
+
+        .venmo-handle {
+          font-size: 1.4rem;
+        }
+
+        .payment-warning {
+          font-size: 0.8rem;
+        }
+
+        .confidence-tracker {
+          position: relative;
+          top: 0;
+          padding: 20px;
+          margin-bottom: 30px;
+        }
+
+        .confidence-tracker h3 {
+          font-size: 1rem;
+          margin-bottom: 15px;
+        }
+
+        .points-grid {
+          grid-template-columns: repeat(4, 1fr);
+          gap: 6px;
+        }
+
+        .point-box {
+          font-size: 0.85rem;
+        }
+
+        .tracker-status {
+          font-size: 0.85rem;
+          padding: 10px;
+        }
+
+        .question-card {
+          padding: 20px;
+          margin-bottom: 20px;
+        }
+
+        .question-header {
+          flex-direction: column;
+          gap: 15px;
+        }
+
+        .question-number {
+          font-size: 0.8rem;
+          padding: 6px 12px;
+        }
+
+        .question-text {
+          font-size: 1rem;
+          margin: 0;
+          margin-bottom: 10px;
+        }
+
+        .confidence-input {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .confidence-input input {
+          width: 80px;
+          padding: 8px;
+          font-size: 1rem;
+        }
+
+        .confidence-label {
+          font-size: 0.8rem;
+          margin: 0;
+        }
+
+        .options-container {
+          grid-template-columns: 1fr;
+          gap: 10px;
+        }
+
+        .option-label {
+          padding: 12px;
+        }
+
+        .option-label span {
+          font-size: 0.95rem;
+        }
+
+        .submit-section {
+          margin-top: 30px;
+        }
+
+        .submit-btn {
+          width: 100%;
+          padding: 16px 30px;
+          font-size: 1rem;
+          letter-spacing: 1px;
+        }
+
+        .error-message {
+          font-size: 0.85rem;
+          margin-top: 10px;
+        }
+
+        .success-message {
+          width: 90%;
+          padding: 30px 20px;
+        }
+
+        .success-message h2 {
+          font-size: 1.5rem;
+        }
+      }
+
+      @media (max-width: 480px) {
+        .header h1 {
+          font-size: 1.8rem;
+        }
+
+        .points-grid {
+          grid-template-columns: repeat(4, 1fr);
+          gap: 5px;
+        }
+
+        .point-box {
+          font-size: 0.8rem;
+        }
+
+        .question-text {
+          font-size: 0.95rem;
+        }
+
+        .option-label {
+          padding: 10px;
+        }
+
+        .option-label input[type="radio"] {
+          width: 18px;
+          height: 18px;
+        }
+      }
+
+      /* iPhone specific adjustments */
+      @media (max-width: 375px) {
+        .header h1 {
+          font-size: 1.6rem;
+        }
+
+        .form-container {
+          padding: 15px;
+        }
+
+        .info-section,
+        .payment-info,
+        .question-card {
+          padding: 15px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="header">
+        <h1>Super Bowl</h1>
+        <p class="subtitle">2026 Championship Pool</p>
+      </div>
+
+      <div class="form-container">
+        <div class="info-section">
+          <h3>Game Rules</h3>
+          <ul>
+            <li>20 questions. 20 confidence points.</li>
+            <li>Use each point value (1-20) exactly once</li>
+            <li>Higher confidence = higher risk, higher reward</li>
+            <li>Most points wins the pot</li>
+            <li>$20 buy-in. No exceptions.</li>
+          </ul>
+        </div>
+
+        <div class="payment-info">
+          <h3>Entry Fee Required</h3>
+          <p>Send $20 to secure your spot</p>
+          <div class="venmo-handle">
+            <a href="https://venmo.com/u/Jack-VanZeeland-1"
+              >@Jack-VanZeeland-1</a
+            >
+          </div>
+          <div class="payment-warning">No payment = No entry</div>
+        </div>
+
+        <form id="surveyForm">
+          <div class="user-info">
+            <div class="form-group">
+              <label for="userName">Name</label>
+              <input
+                type="text"
+                id="userName"
+                name="userName"
+                required
+                placeholder="Enter your name"
+              />
+            </div>
+          </div>
+
+          <div class="confidence-tracker">
+            <h3>Confidence Points</h3>
+            <div class="points-grid" id="pointsGrid">
+              <!-- Points will be generated by JavaScript -->
+            </div>
+            <div class="tracker-status invalid" id="trackerStatus">
+              0/20 points assigned
+            </div>
+          </div>
+
+          <div id="questionsContainer">
+            <!-- Questions will be loaded here -->
+          </div>
+
+          <div class="submit-section">
+            <button type="submit" class="submit-btn" id="submitBtn" disabled>
+              Lock In Predictions
+            </button>
+            <div class="error-message" id="errorMessage"></div>
+          </div>
+        </form>
+      </div>
+    </div>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="success-message" id="successMessage">
+      <h2>Locked In</h2>
+      <p>Your predictions have been submitted.</p>
+      <p>Don't forget to send $20 via Venmo to secure your entry.</p>
+      <button class="submit-btn" onclick="window.location.reload()">
+        Close
+      </button>
+    </div>
+
+    <script>
+      // Configuration
+      const API_ENDPOINT =
+        "https://yy4ivvs469.execute-api.us-east-2.amazonaws.com/INIT"; // Will be replaced with actual endpoint
+
+      // Detect if running on S3 or locally
+      const isS3 =
+        window.location.hostname.includes("s3") ||
+        window.location.hostname.includes("amazonaws") ||
+        window.location.hostname.includes("cloudfront");
+
+      // Set the base URL for loading files
+      // IMPORTANT: Replace 'your-bucket-name' with your actual S3 bucket name
+      const S3_BUCKET_URL =
+        "https://superbowl-pickem.s3.us-east-2.amazonaws.com";
+      const BASE_URL = isS3 ? S3_BUCKET_URL : ".";
+
+      console.log("Running on S3:", isS3);
+      console.log("Base URL:", BASE_URL);
+
+      // State management
+      let questions = [];
+      let usedPoints = new Set();
+      let formData = {
+        userName: "",
+        answers: [],
+      };
+
+      // Load questions from JSON
+      async function loadQuestions() {
+        try {
+          // Add timestamp to prevent caching
+          const timestamp = new Date().getTime();
+          const questionsUrl = `${BASE_URL}/questions.json?t=${timestamp}`;
+          console.log("Loading questions from:", questionsUrl);
+          const response = await fetch(questionsUrl);
+          if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
+          }
+          const data = await response.json();
+          questions = data;
+          renderQuestions();
+          initializePointsGrid();
+        } catch (error) {
+          console.error("Error loading questions:", error);
+          document.getElementById("errorMessage").textContent =
+            "Error loading questions. Please refresh the page.";
+        }
+      }
+
+      // Initialize points grid
+      function initializePointsGrid() {
+        const grid = document.getElementById("pointsGrid");
+        grid.innerHTML = "";
+
+        for (let i = 1; i <= 20; i++) {
+          const box = document.createElement("div");
+          box.className = "point-box available";
+          box.textContent = i;
+          box.id = `point-${i}`;
+          grid.appendChild(box);
+        }
+      }
+
+      // Render questions
+      function renderQuestions() {
+        const container = document.getElementById("questionsContainer");
+        container.innerHTML = "";
+
+        questions.forEach((q, index) => {
+          const questionCard = document.createElement("div");
+          questionCard.className = "question-card";
+          questionCard.innerHTML = `
+                    <div class="question-header">
+                        <span class="question-number">Q${q.id}</span>
+                        <span class="question-text">${q.question}</span>
+                        <div class="confidence-input">
+                            <input type="number" 
+                                   id="confidence-${q.id}" 
+                                   name="confidence-${q.id}"
+                                   min="1" 
+                                   max="20" 
+                                   placeholder="1-20"
+                                   data-question-id="${q.id}">
+                            <span class="confidence-label">Points</span>
+                        </div>
+                    </div>
+                    <div class="options-container">
+                        ${q.options
+                          .map(
+                            (option, optIndex) => `
+                            <label class="option-label">
+                                <input type="radio" 
+                                       name="question-${q.id}" 
+                                       value="${option}"
+                                       data-question-id="${q.id}">
+                                <span>${option}</span>
+                            </label>
+                        `,
+                          )
+                          .join("")}
+                    </div>
+                `;
+          container.appendChild(questionCard);
+        });
+
+        // Add event listeners
+        addEventListeners();
+      }
+
+      // Add event listeners
+      function addEventListeners() {
+        // Confidence input listeners
+        document.querySelectorAll('input[type="number"]').forEach((input) => {
+          input.addEventListener("input", handleConfidenceChange);
+          input.addEventListener("blur", validateConfidenceValue);
+        });
+
+        // Radio button listeners
+        document.querySelectorAll('input[type="radio"]').forEach((radio) => {
+          radio.addEventListener("change", validateForm);
+        });
+
+        // User info listeners
+        document
+          .getElementById("userName")
+          .addEventListener("input", validateForm);
+
+        // Form submission
+        document
+          .getElementById("surveyForm")
+          .addEventListener("submit", handleSubmit);
+      }
+
+      // Handle confidence value changes
+      function handleConfidenceChange(e) {
+        const input = e.target;
+        const value = parseInt(input.value);
+        const questionId = input.dataset.questionId;
+
+        // Remove any previous value for this question
+        const previousValue = findPreviousConfidenceValue(questionId);
+        if (previousValue) {
+          usedPoints.delete(previousValue);
+        }
+
+        // Validate and update
+        if (value >= 1 && value <= 20) {
+          if (usedPoints.has(value)) {
+            input.classList.add("error");
+            showConfidenceError(input, `${value} already used`);
+          } else {
+            input.classList.remove("error");
+            usedPoints.add(value);
+            hideConfidenceError(input);
+          }
+        } else if (input.value !== "") {
+          input.classList.add("error");
+          showConfidenceError(input, "Must be 1-20");
+        }
+
+        updatePointsGrid();
+        validateForm();
+      }
+
+      // Validate confidence value on blur
+      function validateConfidenceValue(e) {
+        const input = e.target;
+        const value = parseInt(input.value);
+
+        if (input.value && (value < 1 || value > 20)) {
+          input.value = "";
+          input.classList.remove("error");
+          hideConfidenceError(input);
+          handleConfidenceChange(e);
+        }
+      }
+
+      // Find previous confidence value for a question
+      function findPreviousConfidenceValue(questionId) {
+        const currentValues = {};
+        document.querySelectorAll('input[type="number"]').forEach((input) => {
+          const qId = input.dataset.questionId;
+          const value = parseInt(input.value);
+          if (qId && value >= 1 && value <= 20) {
+            currentValues[qId] = value;
+          }
+        });
+
+        // Check if this question had a different value before
+        for (const point of usedPoints) {
+          let found = false;
+          for (const [qId, val] of Object.entries(currentValues)) {
+            if (val === point && qId !== questionId) {
+              found = true;
+              break;
+            }
+          }
+          if (
+            !found &&
+            point !==
+              parseInt(
+                document.querySelector(`#confidence-${questionId}`).value,
+              )
+          ) {
+            return point;
+          }
+        }
+        return null;
+      }
+
+      // Show confidence error
+      function showConfidenceError(input, message) {
+        let errorEl = input.parentElement.querySelector(".confidence-error");
+        if (!errorEl) {
+          errorEl = document.createElement("div");
+          errorEl.className = "confidence-error";
+          errorEl.style.cssText =
+            "color: #ff4444; font-size: 0.7rem; margin-top: 5px; text-transform: uppercase; letter-spacing: 1px;";
+          input.parentElement.appendChild(errorEl);
+        }
+        errorEl.textContent = message;
+      }
+
+      // Hide confidence error
+      function hideConfidenceError(input) {
+        const errorEl = input.parentElement.querySelector(".confidence-error");
+        if (errorEl) {
+          errorEl.remove();
+        }
+      }
+
+      // Update points grid display
+      function updatePointsGrid() {
+        // Reset all points
+        for (let i = 1; i <= 20; i++) {
+          const box = document.getElementById(`point-${i}`);
+          box.className = "point-box available";
+        }
+
+        // Mark used points
+        usedPoints.clear();
+        document.querySelectorAll('input[type="number"]').forEach((input) => {
+          const value = parseInt(input.value);
+          if (value >= 1 && value <= 20) {
+            usedPoints.add(value);
+            const box = document.getElementById(`point-${value}`);
+            if (box) {
+              box.className = "point-box used";
+            }
+          }
+        });
+
+        // Update tracker status
+        const status = document.getElementById("trackerStatus");
+        if (usedPoints.size === 20) {
+          status.className = "tracker-status valid";
+          status.textContent = "All points assigned";
+        } else {
+          status.className = "tracker-status invalid";
+          status.textContent = `${usedPoints.size}/20 points assigned`;
+        }
+      }
+
+      // Validate entire form
+      function validateForm() {
+        const userName = document.getElementById("userName").value.trim();
+
+        let allQuestionsAnswered = true;
+        let allConfidenceSet = true;
+        let noDuplicates = true;
+
+        const confidenceValues = [];
+        questions.forEach((q) => {
+          // Check if question is answered
+          const answer = document.querySelector(
+            `input[name="question-${q.id}"]:checked`,
+          );
+          if (!answer) {
+            allQuestionsAnswered = false;
+          }
+
+          // Check confidence value
+          const confidenceInput = document.getElementById(`confidence-${q.id}`);
+          const confidence = parseInt(confidenceInput.value);
+
+          if (!confidence || confidence < 1 || confidence > 20) {
+            allConfidenceSet = false;
+          } else {
+            if (confidenceValues.includes(confidence)) {
+              noDuplicates = false;
+              confidenceInput.classList.add("error");
+            } else {
+              confidenceValues.push(confidence);
+              confidenceInput.classList.remove("error");
+            }
+          }
+        });
+
+        const submitBtn = document.getElementById("submitBtn");
+        const errorMessage = document.getElementById("errorMessage");
+
+        if (!userName) {
+          submitBtn.disabled = true;
+          errorMessage.textContent = "Enter your name";
+        } else if (!allQuestionsAnswered) {
+          submitBtn.disabled = true;
+          errorMessage.textContent = "Answer all questions";
+        } else if (!allConfidenceSet) {
+          submitBtn.disabled = true;
+          errorMessage.textContent = "Set all confidence values";
+        } else if (!noDuplicates || confidenceValues.length !== 20) {
+          submitBtn.disabled = true;
+          errorMessage.textContent = "Use each point value once";
+        } else {
+          submitBtn.disabled = false;
+          errorMessage.textContent = "";
+        }
+
+        return !submitBtn.disabled;
+      }
+
+      // Handle form submission
+      async function handleSubmit(e) {
+        e.preventDefault();
+
+        if (!validateForm()) {
+          return;
+        }
+
+        // Collect form data
+        formData.userName = document.getElementById("userName").value.trim();
+        formData.submissionTime = new Date().toISOString();
+        formData.answers = [];
+
+        questions.forEach((q) => {
+          const answer = document.querySelector(
+            `input[name="question-${q.id}"]:checked`,
+          ).value;
+          const confidence = parseInt(
+            document.getElementById(`confidence-${q.id}`).value,
+          );
+
+          formData.answers.push({
+            id: q.id,
+            question: q.question,
+            answer: answer,
+            confidence: confidence,
+          });
+        });
+
+        // Submit to API
+        try {
+          document.getElementById("submitBtn").disabled = true;
+          document.getElementById("submitBtn").textContent = "Submitting...";
+
+          // For now, just log the data (replace with actual API call)
+          console.log("Submission data:", formData);
+
+          // If using actual API:
+          const response = await fetch(API_ENDPOINT, {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(formData),
+          });
+
+          const text = await response.text();
+          if (!response.ok) {
+            console.error("API error:", text);
+            throw new Error(text || "Submission failed");
+          }
+
+
+          // Show success message
+          document.getElementById("overlay").style.display = "block";
+          document.getElementById("successMessage").style.display = "block";
+        } catch (error) {
+          console.error("Submission error:", error);
+          document.getElementById("errorMessage").textContent =
+            "Submission failed. Try again.";
+          document.getElementById("submitBtn").disabled = false;
+          document.getElementById("submitBtn").textContent =
+            "Lock In Predictions";
+        }
+      }
+
+      // Check if submissions are closed
+      function checkSubmissionDeadline() {
+        // Set to Super Bowl LX date: February 9, 2026, 6:20 PM ET (10 minutes before kickoff)
+        const deadlineDate = new Date("2026-02-08T18:20:00-05:00");
+        const now = new Date();
+
+        if (now > deadlineDate) {
+          // Submissions are closed
+          const submitBtn = document.getElementById("submitBtn");
+          const errorMessage = document.getElementById("errorMessage");
+
+          submitBtn.disabled = true;
+          submitBtn.textContent = "Submissions Closed";
+          submitBtn.style.background = "linear-gradient(135deg, #666, #444)";
+          submitBtn.style.cursor = "not-allowed";
+
+          errorMessage.textContent =
+            "Submissions closed at 6:20 PM EST on game day";
+          errorMessage.style.color = "#ffc107";
+
+          // Add a countdown or status message
+          const trackerStatus = document.getElementById("trackerStatus");
+          if (trackerStatus) {
+            trackerStatus.textContent =
+              "SUBMISSIONS CLOSED - Game Starting Soon!";
+            trackerStatus.className = "tracker-status invalid";
+            trackerStatus.style.background = "rgba(255, 193, 7, 0.2)";
+            trackerStatus.style.color = "#ffc107";
+            trackerStatus.style.border = "1px solid #ffc107";
+          }
+
+          return true; // Submissions are closed
+        }
+
+        return false; // Submissions are still open
+      }
+
+      // Update the form submission handler
+      const originalHandleSubmit = handleSubmit;
+      handleSubmit = async function (e) {
+        e.preventDefault();
+
+        // Check deadline first
+        if (checkSubmissionDeadline()) {
+          alert(
+            "Sorry, submissions closed at 6:20 PM EST on game day. You can still view the form but cannot submit.",
+          );
+          return;
+        }
+
+        // Continue with original submission
+        return originalHandleSubmit.call(this, e);
+      };
+
+      // Initialize on page load
+      document.addEventListener("DOMContentLoaded", () => {
+        loadQuestions();
+        checkSubmissionDeadline();
+
+        // Check deadline every minute in case someone has the page open for a while
+        setInterval(checkSubmissionDeadline, 60000);
+      });
+    </script>
+  </body>
+</html>

@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+*.egg
+.env
+.venv
+env/
+venv/
+
+# Jupyter
+.ipynb_checkpoints
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Type checkers
+.mypy_cache/
+.pyre/
+
+# Linting cache
+.ruff_cache/
+
+# macOS
+.DS_Store
+.AppleDouble
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Data / archives
+*.csv
+*.zip
+
+# Legacy
+old/
+
+# Real participant data (names, picks, payment status) - not for public repo
+submissions.json
+
+# Claude Code local state
+.claude/.skip-auto-commit-prompt

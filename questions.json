@@ -1,0 +1,126 @@
+[
+  {
+    "id": 1,
+    "question": "Who will win the game?",
+    "options": ["Seattle Seahawks", "New England Patriots"]
+  },
+  {
+    "id": 2,
+    "question": "Coin toss result?",
+    "options": ["Heads", "Tails"]
+  },
+  {
+    "id": 3,
+    "question": "Bad Bunny halftime opener?",
+    "options": [
+      "BAILE INoLVIDABLE",
+      "Titi Me Preguntó",
+      "NUEVAYoL",
+      "DtMF",
+      "LA MuDANZA",
+      "DAKITI",
+      "OTHER"
+    ]
+  },
+  {
+    "id": 4,
+    "question": "Who receives the opening kickoff?",
+    "options": ["Seattle Seahawks", "New England Patriots"]
+  },
+  {
+    "id": 5,
+    "question": "First team to score?",
+    "options": ["Seattle Seahawks", "New England Patriots", "No Score"]
+  },
+  {
+    "id": 6,
+    "question": "First scoring play?",
+    "options": ["Touchdown", "Field Goal", "Safety", "No Score"]
+  },
+  {
+    "id": 7,
+    "question": "Highest scoring quarter?",
+    "options": ["1st", "2nd", "3rd", "4th", "OT", "Tie"]
+  },
+  {
+    "id": 8,
+    "question": "Total points scored (Over/Under 45.5)?",
+    "options": ["Over 45.5", "Under 45.5"]
+  },
+  {
+    "id": 9,
+    "question": "National Anthem length (Over/Under 122 seconds)?",
+    "options": ["Over 122", "Under 122"]
+  },
+  {
+    "id": 10,
+    "question": "Will there be overtime?",
+    "options": ["Yes", "No"]
+  },
+  {
+    "id": 11,
+    "question": "MVP of the game?",
+    "options": [
+      "Drake 'Drake Maye' Maye",
+      "Sam Darnold",
+      "JSN",
+      "K9",
+      "Stephon Diggs",
+      "Other Chief",
+      "Other Eagle"
+    ]
+  },
+  {
+    "id": 12,
+    "question": "Will there be a successful 2-point conversion?",
+    "options": ["Yes", "No"]
+  },
+  {
+    "id": 13,
+    "question": "Longest touchdown (Over/Under 36.5 yards)?",
+    "options": ["Over 36.5", "Under 36.5", "No TD"]
+  },
+  {
+    "id": 14,
+    "question": "First turnover type?",
+    "options": ["Interception", "Fumble", "Downs", "No Turnover"]
+  },
+  {
+    "id": 15,
+    "question": "Total touchdowns (Over/Under 5.5)?",
+    "options": ["Over 5.5", "Under 5.5"]
+  },
+  {
+    "id": 16,
+    "question": "Will there be a defensive/special teams TD?",
+    "options": ["Yes", "No"]
+  },
+  {
+    "id": 17,
+    "question": "Will the score be tied again after 0-0?",
+    "options": ["Yes", "No"]
+  },
+  {
+    "id": 18,
+    "question": "Team with most total offensive yards?",
+    "options": ["Seattle Seahawks", "New England Patriots", "Tie"]
+  },
+  {
+    "id": 19,
+    "question": "Halftime leader?",
+    "options": ["Seattle Seahawks", "New England Patriots", "Tie"]
+  },
+  {
+    "id": 20,
+    "question": "Gatorade shower color?",
+    "options": [
+      "Orange",
+      "Blue",
+      "Red/Pink",
+      "Yellow/Green/Lime",
+      "Purple",
+      "Clear/Water",
+      "No Shower"
+    ]
+  }
+]
